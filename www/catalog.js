@@ -5,12 +5,8 @@ Catalog.config([ '$compileProvider', function($compileProvider) {
 Catalog.factory('Movies', ['locationName', '$q', function Movies(locationName, $q) {
 	var Client = require("stremio-addons-client");
 
-	var addons = new Client({ 
-		client: function(url) {
-			return Jayson({ url: url, timeout: 10*1000 })
-		}
-	});
-	// torbox auth API key
+	var addons = new Client();
+
 	addons.setAuth("http://api8.herokuapp.com","2a240788ce82492744cdd42ca434fc26848ec616");
 
 	addons.add("http://cinemeta-backup.herokuapp.com");
@@ -26,13 +22,10 @@ Catalog.factory('Movies', ['locationName', '$q', function Movies(locationName, $
 			options.sort["popularity"] = -1;
 			var deferred = $q.defer();
 			addons.meta[method](options,
-					function(err, items) {
-						if(err) {
-							deferred.reject(err);
-						} else {
-							deferred.resolve(items);
-						}
-					})
+				function(err, items) {
+					if(err) deferred.reject(err); 
+					else deferred.resolve(items);
+				})
 			return deferred.promise;
 		}
 	};
@@ -42,17 +35,17 @@ Catalog.controller('CatalogController', ['Movies', '$timeout', '$window', '$q', 
 	var self = this;
 	var lastCheckForPlayer = 0;
 
-	var imdb_proxy = 'imdb_img.php?img=';
+	var imdb_proxy = '/poster/';
 
 	self.loading = false;
 	self.player = false;
-	self.player_seen = !!docCookies.getItem('stremioPlayerSeen');
+	self.player_seen = !!localStorage.stremioPlayerSeen;
 	self.query = '';
 	self.showType = 'movie';
 	self.showGenre = '';
 	self.catTypes = {
-		'movie': { name: 'Movies', genres: {} },
-	'series': { name: 'TV Shows', genres: {} }
+		movie: { name: 'Movies', genres: {} },
+		series: { name: 'TV Shows', genres: {} }
 	};
 
 
@@ -63,7 +56,7 @@ Catalog.controller('CatalogController', ['Movies', '$timeout', '$window', '$q', 
 
 		if (1 === splitted.length) return url;
 
-		return imdb_proxy + splitted[0] + "._V1._SX" + width + "_CR0,0," + width + "," + height + "_.jpg";
+		return imdb_proxy + encodeURIComponent(splitted[0] + "._V1._SX" + width + "_CR0,0," + width + "," + height + "_.jpg");
 
 	};
 
@@ -175,7 +168,7 @@ Catalog.controller('CatalogController', ['Movies', '$timeout', '$window', '$q', 
 	function updatePlayerPresence(status) {
 		if(status) {
 			self.player = true;
-			self.player_seen = docCookies.setItem('stremioPlayerSeen', true);
+			self.player_seen = localStorage.stremioPlayerSeen = true;
 		} else {
 			self.player = false;
 			pullPlayerPresense();
