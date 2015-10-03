@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<head>
+	<link rel='stylesheet' type='text/css' media='all' href='css/bootstrap.min.css' />
+	<link rel='stylesheet' type='text/css' media='all' href='css/bootstrap-flat.min.css' />
+	<link rel='stylesheet' type='text/css' media='all' href='css/awesome-bootstrap-checkbox.css' />
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+        <!-- link rel="stylesheet" type="text/css" href="OpenSans-Light/stylesheet.css" / -->
+	<link rel='stylesheet' type='text/css' media='all' href='include/text.css?v=1' />
+	<link rel='stylesheet' type='text/css' media='all' href='include/main.css?v=9' />
+	<link href="include/icons.css" rel="stylesheet" type="text/css" />
+	<link href="include/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link rel='icon' type='image/png' href='favicon.ico' />
+	<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+	<script src="catalog/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+	<script src="catalog/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class='container' ng-app="catalog" ng-controller="CatalogController as Catalog">
+		<div class="header">
+			<div  class="clearfix"></div>
+			<div class="navbar navbar-inverse" style="border: none; background-color: #9766b2">
+				<form class="form-horizontal" ng-submit="Catalog.startSearch()">
+					<div class="form-group">
+						<div class="col-xs-4" style="margin:10px 0;">
+							<a class="navbar-brand" href="#">
+								<span><img src="include/TB-logo.png" style="vertical-align:middle" /></span>
+								TorBox
+							</a>
+						</div>
+						<div class="col-xs-6" style="margin:20px 0;">
+							<div class="input-group">
+								<input type='text' placeholder='Search' class='form-control' id='ch_sfield' name='q' value='' ng-model="Catalog.query" />
+								<span class="input-group-btn">
+									<button type='submit' class="btn btn-default" value='Search' style="border-left: none;">
+									<span class='icon-torbox-search purple'></span>
+									</button>
+								</span>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div>
+			<div class='center_col' id='center_col'>
+
+<div class="panel panel-shadow">
+<div class="panel-body" ng-cloak>
+	<div class="row">
+		<div class="col-xs-2">
+			<ul class="nav nav-pills nav-stacked cat-types">
+				<li ng-repeat="(key, val) in Catalog.catTypes" ng-class="{'active': Catalog.showType === key}"><a href="" ng-click="Catalog.selectType(key)">{{val.name}}</a></li>
+			</ul>
+			<hr ng-hide="Catalog.showType === 'search'">
+			<ul ng-hide="Catalog.showType === 'search'" class="nav nav-pills nav-stacked cat-genres">
+				<li ng-class="{'active': !Catalog.showGenre}"><a href="" ng-click="Catalog.selectGenre(null)">Top</a></li>
+				<li ng-repeat="(genre, _) in Catalog.catTypes[Catalog.showType].genres" ng-class="{'active': Catalog.showGenre === genre}"><a href="" ng-click="Catalog.selectGenre(genre)">{{genre}}</a></li>
+			</ul>
+		</div>
+		<div class="col-xs-7">
+			<div class="row catalog" ng-show="Catalog.movies" infinite-scroll='Catalog.loadCatalog(true)' infinite-scroll-distance='1'>
+				<div ng-repeat="res in Catalog.movies" ng-if="res.poster" class="col-xs-4 col-lg-3 nopadding" >
+					<div class="panel" ng-class="res.imdb_id == Catalog.smovie.imdb_id ? 'panel-primary' : ''">
+						<a href="" ng-click="Catalog.selectMovie(res)">
+							<img class="img-responsive" ng-src="{{Catalog.formatImgURL(res.poster, 210, 300) || 'no-poster.jpg'}}" alt="{{res.name}}" />
+						</a>
+						<a ng-cloak href="" ng-click="Catalog.playMovie(res)" ng-show="res.imdb_id == Catalog.smovie.imdb_id && (Catalog.player || Catalog.player_seen)" style="position: absolute; display: block; top:0; left:0; width: 100%; height: 100%; background-color: rgba(0,0,0,.3);">
+							<img style="position: absolute; top:50%; left: 50%; margin-top: -35px; margin-left: -35px;" src="play_circle.png" alt="Play"/>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div ng-show="Catalog.loading">
+				<p><i class="fa fa-cog fa-spin"></i> Loading...</p>
+			</div>
+			<div ng-hide="Catalog.movies.length || Catalog.loading">
+				<p>No items to display</p>
+			</div>
+		</div>
+		<div class="col-xs-3" ng-show="Catalog.smovie">
+			<div class="panel panel-default movie-info" data-spy="affix" data-offset-top="368" data-old-offset-top="140">
+				<div class="panel-body" style="position: relative; font-size: 13px;">
+					<h2 class="text-uppercase"> {{Catalog.smovie.name}}</h2>
+					<ul class="list-inline">
+						<li ng-repeat-start="(id, genre) in Catalog.smovie.genre" ng-show="id" role="separator">|</li>
+						<li ng-repeat-end>{{genre}}</li>
+					</ul>
+					<table class="table table-borderless">
+						<tr>
+							<th ng-show="Catalog.smovie.imdbRating" class="text-uppercase">IMDB</th>
+							<th class="text-uppercase">Year</th>
+							<th ng-show="Catalog.smovie.director" class="text-uppercase">Director</th>
+						</tr>
+						<tr>
+							<td ng-show="Catalog.smovie.imdbRating">
+								{{Catalog.smovie.imdbRating}}
+							</td>
+							<td>{{Catalog.smovie.year}}</td>
+							<td ng-show="Catalog.smovie.director">
+								{{Catalog.smovie.director.join(', ')}}
+							</td>
+						</tr>
+					</table>
+					<h3 class="text-uppercase">Lead actors</h3>
+					<p>{{Catalog.smovie.cast.join(', ')}}</p>
+					<h3 class="text-uppercase">Summary</h3>
+					<p>{{Catalog.smovie.description}}</p>
+				</div>
+				<div class="text-center catalog-download" style="" ng-hide="Catalog.player">
+					Watch <strong>{{Catalog.smovie.name}}</strong> Now!<br>
+					Play instantly with Stremio.
+					<a href="http://strem.io/download" ng-click="Catalog.downloadLink()">
+						<img alt="Stremio logo" src="/include/images/stremio-white.png"/>
+						Install Stremio
+					</a>
+					<div class="catalog-footer">
+						<ul class='list-inline pull-right'>
+							<li><a href='?in=feed'>Feedback</a></li>
+							<li><a href='?in=faq'>FAQ</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			</div>
+			</div>
+		</div>
+		</div>
+		<script src="catalog/js/jayson.jquery.js"></script>
+		<script src="catalog/js/stremio-addons-client.min.js"></script>
+		<script src="catalog/js/angular.min.js"></script>
+		<script src="catalog/js/ng-infinite-scroll.min.js"></script>
+		<script src="catalog/js/bootstrap.min.js"></script>
+		<script src="catalog/js/ui-bootstrap-tpls-0.13.4.min.js"></script>
+		<script>
+		var Catalog = angular.module('catalog', ['infinite-scroll']);
+		</script>
+		<script src="catalog/js/catalog.js?v=1"></script>
+			</div>
+		</div>
+
+	</div>
+
+	<script src="include/stremio.play.js?v=1" type="text/javascript"></script>
+</body>
+</html>
