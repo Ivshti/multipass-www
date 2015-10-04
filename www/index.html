@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 
 <head>
-	<link rel='stylesheet' type='text/css' media='all' href='css/bootstrap.min.css' />
-	<link rel='stylesheet' type='text/css' media='all' href='css/bootstrap-flat.min.css' />
-	<link rel='stylesheet' type='text/css' media='all' href='css/awesome-bootstrap-checkbox.css' />
+	<link rel='stylesheet' type='text/css' media='all' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' />
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
-        <!-- link rel="stylesheet" type="text/css" href="OpenSans-Light/stylesheet.css" / -->
-	<link href="include/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-	<link rel='icon' type='image/png' href='favicon.ico' />
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
 	<script src="catalog/js/jquery-1.11.3.min.js" type="text/javascript"></script>
 	<script src="catalog/js/bootstrap.min.js"></script>
@@ -96,14 +92,26 @@
 		<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 		<script src="http://www.strem.io/js/stremio-addons.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-		<script src="catalog/js/bootstrap.min.js"></script>
-		<script src="catalog/js/ui-bootstrap-tpls-0.13.4.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script>
 		var Catalog = angular.module('catalog', ['infinite-scroll']);
 		</script>
 		<script src="catalog.js"></script>
 			</div>
 		</div>
+		<style>
+		.catalog .panel img {
+			margin: auto;
+		}
+		.catalog .panel {
+			border-width: 2px;
+			margin-bottom: 0;
+		}
+		.catalog .panel-primary {
+			box-shadow: 2px 2px 6px -2px gray;
+		}
+
+		</style>
 
 	</div>
 
