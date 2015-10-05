@@ -6,7 +6,11 @@ var http = require('http'),
 var addon = require('multipass-torrent/stremio-addon/addon').service;
 
 // Default scraping sources TODO: changable by GUI
-mp.importQueue.push({ url: 'https://torrentz.eu/search?q=' });
+mp.importQueue.push({ url: 'http://torrentz.eu/search?q=' });
+mp.importQueue.push({ url: 'http://torrentz.eu/search?q=?f=&p=1' });
+mp.importQueue.push({ url: 'http://kat.cr/movies/?rss=1' });
+mp.importQueue.push({ url: 'http://kat.cr/tv/?rss=1' });
+// Note: we can add full dumps here
 
 app = express();
 app.use(addon.middleware);
