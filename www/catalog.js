@@ -1,10 +1,11 @@
+var Catalog = angular.module('catalog', []);
+
 Catalog.config([ '$compileProvider', function($compileProvider) {   
 	$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|stremio):/);
 }]);
 
-Catalog.factory('Movies', ['locationName', '$q', function Movies(locationName, $q) {
-	var Client = require("stremio-addons-client");
-
+Catalog.factory('Movies', [ '$q', function Movies($q) {
+	var Client = require("stremio-addons").Client;
 	var addons = new Client();
 
 	addons.setAuth("http://api8.herokuapp.com","2a240788ce82492744cdd42ca434fc26848ec616");
@@ -16,10 +17,8 @@ Catalog.factory('Movies', ['locationName', '$q', function Movies(locationName, $
 		get: function (opts, method) {
 			method = method || 'find';
 			var options = $.extend({query: {}, limit: 20, skip: 0, complete: true, popular: true,
-				sort: {}
+				sort: { popularity: -1 }
 			}, opts);
-			options.sort["popularities."+locationName] = -1;
-			options.sort["popularity"] = -1;
 			var deferred = $q.defer();
 			addons.meta[method](options,
 				function(err, items) {
@@ -52,12 +51,11 @@ Catalog.controller('CatalogController', ['Movies', '$timeout', '$window', '$q', 
 	self.formatImgURL = function formatImgURL(url, width, height) {
 		if (!url || -1 === url.indexOf("imdb.com")) return url;
 
-		var splitted = url.substr(url.lastIndexOf('/') + 1).split(".");
+		var splitted = url.split("/").pop().split(".");
 
 		if (1 === splitted.length) return url;
 
-		return imdb_proxy + encodeURIComponent(splitted[0] + "._V1._SX" + width + "_CR0,0," + width + "," + height + "_.jpg");
-
+		return imdb_proxy + encodeURIComponent(url.split("/").slice(0,-1).join("/") + "/" + splitted[0] + "._V1._SX" + width + "_CR0,0," + width + "," + height + "_.jpg");
 	};
 
 
@@ -100,14 +98,12 @@ Catalog.controller('CatalogController', ['Movies', '$timeout', '$window', '$q', 
 
 	self.selectGenre = function selectGenre(genre) {
 		if(self.showGenre === genre) return;
-		_gaq.push(['_trackEvent', 'CatalogSelectGenre', genre]);
 		self.showGenre = genre;
 		self.loadCatalog();
 	};
 
 	self.selectType = function selectType(type) {
 		if(self.showType === type) return;
-		_gaq.push(['_trackEvent', 'CatalogSelectType', type]);
 		self.showType = type;
 		self.query = '';
 		self.showGenre = '';
@@ -115,7 +111,6 @@ Catalog.controller('CatalogController', ['Movies', '$timeout', '$window', '$q', 
 	};
 
 	self.selectMovie = function selectMovie(movie) {
-		_gaq.push(['_trackEvent', 'CatalogSelectMovie', movie.name]);
 		self.smovie = movie;
 	};
 
@@ -126,7 +121,6 @@ Catalog.controller('CatalogController', ['Movies', '$timeout', '$window', '$q', 
 	};
 
 	self.playMovie = function playMovie(movie) {
-		_gaq.push(['_trackEvent', 'CatalogPlayMovie', movie.name]);
 		var deferred = $q.defer();
 		deferred.promise.then(updatePlayerPresence);
 		$.stremioPlay.info(movie.imdb_id, function(status) {
@@ -138,7 +132,7 @@ Catalog.controller('CatalogController', ['Movies', '$timeout', '$window', '$q', 
 	};
 
 	self.downloadLink = function(banner) {
-		_gaq.push(['_trackEvent', 'Action', banner ? 'CatalogDownloadStremioBanner' : 'CatalogDownloadStremio']);	
+		// TODO
 	};
 	self.loadCatalog();
 	pullPlayerPresense();
@@ -161,7 +155,7 @@ Catalog.controller('CatalogController', ['Movies', '$timeout', '$window', '$q', 
 		var now = new Date().getTime();
 		if(now - lastCheckForPlayer < 10000) return;
 		lastCheckForPlayer = now;
-		$.stremioPlay.checkPlayer(deferred.resolve);
+		//$.stremioPlay.checkPlayer(deferred.resolve);
 		if(! self.player) $timeout(pullPlayerPresense, 10000);
 	}
 
