@@ -5,6 +5,9 @@
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+	<style>
+		.ng-hide { display: none; }
+	</style>
 </head>
 
 <body>
@@ -73,6 +76,15 @@
 					<p>{{Catalog.selected.cast.join(', ')}}</p>
 					<h3 class="text-uppercase">Summary</h3>
 					<p>{{Catalog.selected.description}}</p>
+
+					<table class="table table-borderless">
+						<tr>
+							<th class="text-uppercase">infohash</th>
+						</tr>
+						<tr>
+							<td>{{Catalog.selected.stream.infoHash}}</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 			</div>

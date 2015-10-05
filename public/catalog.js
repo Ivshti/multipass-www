@@ -15,7 +15,7 @@ Catalog.factory('Items', [ '$q', '$rootScope', function($q, $scope) {
 	var Client = require("stremio-addons").Client;
 	var addons = new Client();
 
-	var self = { };
+	var self = { addons: addons };
 
 	addons.setAuth("http://api8.herokuapp.com","2a240788ce82492744cdd42ca434fc26848ec616");
 
@@ -74,6 +74,15 @@ Catalog.controller('CatalogController', ['Items', '$scope', '$timeout', '$window
 				(!self.showGenre || (x.genre.indexOf(self.showGenre) > -1))
 		});
 		self.selected = self.items[0];
+	});
+	$scope.$watch(function() { return self.selected && self.selected.imdb_id }, function() {
+		if (! self.selected) return;
+		Items.addons.stream.find({ query: { imdb_id: self.selected.imdb_id } }, function(err, res) { 
+			self.selected.streams = res;
+			self.selected.stream = res[0];
+			console.log(self.selected.stream)
+			$scope.$apply();
+		});
 	});
 
 	self.formatImgURL = function formatImgURL(url, width, height) {
