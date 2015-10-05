@@ -14,7 +14,7 @@ mp.importQueue.push({ url: 'http://kat.cr/tv/?rss=1', interval: 5*60*1000 });
 
 app = express();
 app.use(addon.middleware);
-app.use(express.static('www'));
+app.use(express.static('public'));
 
 app.set('port', process.env.PORT || 7000);
 app.get('/poster/:url', function(req, res) {
