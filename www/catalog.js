@@ -24,7 +24,7 @@ Catalog.factory('Items', [ '$q', '$rootScope', function($q, $scope) {
 	addons.add(window.location.origin); // multipass add-on
 
 	var genres = self.genres = {};
-	var res = [];
+	var items = [];
 	// NOTE: refresh sometimes
 	var popularities = { };
 	addons.call("stream.popularities", { }, function(err, res) {
@@ -38,15 +38,15 @@ Catalog.factory('Items', [ '$q', '$rootScope', function($q, $scope) {
 		addons.meta.find({ query: { imdb_id: { $in: p } }, limit: 500, skip: 0, complete: true, popular: true, projection: "lean" }, function(err, r) {
 			if (!r) return;
 
-			res = r;
-			res.forEach(function(x) { 
+			items = r;
+			items.forEach(function(x) { 
 				if (! genres[x.type]) genres[x.type] = { };
 				x.genre.forEach(function(g) { genres[x.type][g] = 1 });
 			});
 			$scope.$apply();
 		});
 	});
-	self.all = function() { return res || [] };
+	self.all = function() { return items };
 	self.popularities = function() { return popularities };
 
 	return self;
@@ -68,12 +68,12 @@ Catalog.controller('CatalogController', ['Items', '$scope', '$timeout', '$window
 	self.genres = Items.genres;
 
 	$scope.$watch(function() { return Items.loading }, function(loading) { self.loading = loading });
-	$scope.$watchCollection(function() {  return [self.showType, self.showGenre, Items.all().length] }, function() {
+	$scope.$watchCollection(function() { return [self.showType, self.showGenre, Items.all().length] }, function() {
 		self.items = Items.all().filter(function(x) { 
 			return (x.type == self.showType) && 
 				(!self.showGenre || (x.genre.indexOf(self.showGenre) > -1))
 		});
-		console.log(self.items, Items.all().length)
+		self.selected = self.items[0];
 	});
 
 	self.formatImgURL = function formatImgURL(url, width, height) {
@@ -93,19 +93,13 @@ Catalog.controller('CatalogController', ['Items', '$scope', '$timeout', '$window
 	};
 
 	self.selectType = function selectType(type) {
-		if(self.showType === type) return;
+		if (self.showType === type) return;
 		self.showType = type;
-		self.query = '';
 		self.showGenre = '';
 	};
 
 	self.selectMovie = function selectMovie(movie) {
 		self.selected = movie;
-	};
-
-	self.startSearch = function startSearch() {
-		self.query = self.query.trim();
-		self.movies = [];
 	};
 
 	self.playMovie = function playMovie(movie) {

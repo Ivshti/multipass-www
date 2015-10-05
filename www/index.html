@@ -27,7 +27,7 @@
 		</div>
 		<div class="col-xs-7">
 			<div class="row catalog" ng-show="Catalog.items">
-				<div ng-repeat="res in items" ng-if="res.poster" class="col-xs-4 col-lg-3 nopadding" >
+				<div ng-repeat="res in Catalog.items" ng-if="res.poster" class="col-xs-4 col-lg-3 nopadding" >
 					<div class="panel" ng-class="res.imdb_id == Catalog.selected.imdb_id ? 'panel-primary' : ''">
 						<a href="" ng-click="Catalog.selectMovie(res)">
 							<img class="img-responsive" ng-src="{{Catalog.formatImgURL(res.poster, 210, 300) || 'no-poster.jpg'}}" alt="{{res.name}}" />
@@ -144,8 +144,6 @@
 			font-weight: bold;
 			padding: 0;
 		}
-
-
 		</style>
 
 	</div>
