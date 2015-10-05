@@ -16,7 +16,7 @@ Catalog.factory('Movies', [ '$q', function Movies($q) {
 	return {
 		get: function (opts, method) {
 			method = method || 'find';
-			var options = $.extend({query: {}, limit: 20, skip: 0, complete: true, popular: true,
+			var options = $.extend({query: {}, limit: 40, skip: 0, complete: true, popular: true,
 				sort: { popularity: -1 }
 			}, opts);
 			var deferred = $q.defer();
@@ -89,7 +89,7 @@ Catalog.controller('CatalogController', ['Movies', '$timeout', '$window', '$q', 
 				self.movies.push(result[i]);
 			}
 			if( ! more) {
-				self.smovie = result[0];
+				self.selected = result[0];
 			}
 		}, function() {
 			self.loading = false;
@@ -111,7 +111,7 @@ Catalog.controller('CatalogController', ['Movies', '$timeout', '$window', '$q', 
 	};
 
 	self.selectMovie = function selectMovie(movie) {
-		self.smovie = movie;
+		self.selected = movie;
 	};
 
 	self.startSearch = function startSearch() {
@@ -122,7 +122,7 @@ Catalog.controller('CatalogController', ['Movies', '$timeout', '$window', '$q', 
 
 	self.playMovie = function playMovie(movie) {
 		var deferred = $q.defer();
-		deferred.promise.then(updatePlayerPresence);
+		//deferred.promise.then(updatePlayerPresence);
 		$.stremioPlay.info(movie.imdb_id, function(status) {
 			deferred.resolve(status);
 			if(! status) {
@@ -135,7 +135,6 @@ Catalog.controller('CatalogController', ['Movies', '$timeout', '$window', '$q', 
 		// TODO
 	};
 	self.loadCatalog();
-	pullPlayerPresense();
 
 	// A single query to load the movies and series categories
 	Movies.get({limit: 600, query: {}, popular: true, projection:{ type: 1, genre:1 } }).then(function(result) {
@@ -148,25 +147,5 @@ Catalog.controller('CatalogController', ['Movies', '$timeout', '$window', '$q', 
 	});
 	return self;
 
-	// Check if the player is running
-	function pullPlayerPresense() {
-		var deferred = $q.defer();
-		deferred.promise.then(updatePlayerPresence);
-		var now = new Date().getTime();
-		if(now - lastCheckForPlayer < 10000) return;
-		lastCheckForPlayer = now;
-		//$.stremioPlay.checkPlayer(deferred.resolve);
-		if(! self.player) $timeout(pullPlayerPresense, 10000);
-	}
-
-	function updatePlayerPresence(status) {
-		if(status) {
-			self.player = true;
-			self.player_seen = localStorage.stremioPlayerSeen = true;
-		} else {
-			self.player = false;
-			pullPlayerPresense();
-		}
-	}
 }]); 
 

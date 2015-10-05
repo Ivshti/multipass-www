@@ -5,8 +5,6 @@
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
-	<script src="catalog/js/jquery-1.11.3.min.js" type="text/javascript"></script>
-	<script src="catalog/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -34,7 +32,7 @@
 						<a href="" ng-click="Catalog.selectMovie(res)">
 							<img class="img-responsive" ng-src="{{Catalog.formatImgURL(res.poster, 210, 300) || 'no-poster.jpg'}}" alt="{{res.name}}" />
 						</a>
-						<a ng-cloak href="" ng-click="Catalog.playMovie(res)" ng-show="res.imdb_id == Catalog.selected.imdb_id && (Catalog.player || Catalog.player_seen)" style="position: absolute; display: block; top:0; left:0; width: 100%; height: 100%; background-color: rgba(0,0,0,.3);">
+						<a ng-cloak href="" ng-click="Catalog.playMovie(res)" ng-show="res.imdb_id == Catalog.selected.imdb_id" style="position: absolute; display: block; top:0; left:0; width: 100%; height: 100%; background-color: rgba(0,0,0,.3);">
 							<img style="position: absolute; top:50%; left: 50%; margin-top: -35px; margin-left: -35px;" src="play_circle.png" alt="Play"/>
 						</a>
 					</div>
@@ -48,7 +46,7 @@
 			</div>
 		</div>
 		<div class="col-xs-3" ng-show="Catalog.selected">
-			<div class="panel panel-default movie-info" data-spy="affix" data-offset-top="368" data-old-offset-top="140">
+			<div class="panel panel-default movie-info affix">
 				<div class="panel-body" style="position: relative; font-size: 13px;">
 					<h2 class="text-uppercase"> {{Catalog.selected.name}}</h2>
 					<ul class="list-inline">
@@ -76,14 +74,6 @@
 					<h3 class="text-uppercase">Summary</h3>
 					<p>{{Catalog.selected.description}}</p>
 				</div>
-				<div class="text-center catalog-download" style="" ng-hide="Catalog.player">
-					Watch <strong>{{Catalog.selected.name}}</strong> Now!<br>
-					Play instantly with Stremio.
-					<a href="http://strem.io/download" ng-click="Catalog.downloadLink()">
-						<img alt="Stremio logo" src="/include/images/stremio-white.png"/>
-						Install Stremio
-					</a>
-				</div>
 			</div>
 			</div>
 			</div>
@@ -101,12 +91,14 @@
 			margin: auto;
 		}
 		.catalog .panel {
-			border-width: 2px;
+			border-width: 3px;
 			margin-bottom: 0;
 		}
 		.catalog .panel-primary {
 			box-shadow: 2px 2px 6px -2px gray;
 		}
+
+		.nopadding { padding: 0px; }
 
 		</style>
 
