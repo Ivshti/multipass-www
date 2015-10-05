@@ -3,7 +3,10 @@ var express = require('express');
 var http = require('http'),
 	url = require('url');
 
+var addon = require('multipass-torrent/stremio-addon/addon').service;
+
 app = express();
+app.use(addon.middleware);
 app.use(express.static('www'));
 
 app.set('port', process.env.PORT || 7000);

@@ -32,8 +32,8 @@
 						<a href="" ng-click="Catalog.selectMovie(res)">
 							<img class="img-responsive" ng-src="{{Catalog.formatImgURL(res.poster, 210, 300) || 'no-poster.jpg'}}" alt="{{res.name}}" />
 						</a>
-						<a ng-cloak href="" ng-click="Catalog.playMovie(res)" ng-show="res.imdb_id == Catalog.selected.imdb_id" style="position: absolute; display: block; top:0; left:0; width: 100%; height: 100%; background-color: rgba(0,0,0,.3);">
-							<img style="position: absolute; top:50%; left: 50%; margin-top: -35px; margin-left: -35px;" src="play_circle.png" alt="Play"/>
+						<a ng-cloak class="play-button" href="#" ng-click="Catalog.playMovie(res)" ng-show="res.imdb_id == Catalog.selected.imdb_id">
+							<img src="play_circle.png" alt="Play"/>
 						</a>
 					</div>
 				</div>
@@ -87,9 +87,29 @@
 		</div>
 		</div>
 		<style>
-		.catalog .panel img {
-			margin: auto;
+
+		h1{ font-size: 25px;}
+
+		h2 { font-size: 23px; }
+
+		h3 { font-size: 21px; }
+
+		.center_col h1{
+			font-size: 20px;
+			margin: 0 0;
+			padding: 5px 0;
+			text-transform: uppercase;
 		}
+
+		.center_col h3{
+			font-size: 12px;
+			margin: 0 0;
+			color: #FFF;
+			padding: 5px 10px;
+			display: block;
+		}
+
+
 		.catalog .panel {
 			border-width: 3px;
 			margin-bottom: 0;
@@ -99,6 +119,32 @@
 		}
 
 		.nopadding { padding: 0px; }
+
+		.play-button { position: absolute; display: block; top:0; left:0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.3); }
+		.play-button img { position: absolute; top:50%; left: 50%; margin-top: -35px; margin-left: -35px; }
+		.banner {
+			display: block;
+			width: 100%;
+			position: relative;
+			background-color: #fafafc;
+		}
+
+		.movie-info {
+			color: #777;
+			font-size: 13px;
+		}
+
+		.movie-info h2 {
+			font-size: 22px;
+			margin-top: 0;
+		}
+
+		.movie-info h3 {
+			color: inherit;
+			font-weight: bold;
+			padding: 0;
+		}
+
 
 		</style>
 
