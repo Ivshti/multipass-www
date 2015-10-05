@@ -103,14 +103,16 @@ Catalog.controller('CatalogController', ['Items', '$scope', '$timeout', '$window
 	};
 
 	self.playMovie = function playMovie(movie) {
+		/*
 		var deferred = $q.defer();
-		//deferred.promise.then(updatePlayerPresence);
+		deferred.promise.then(updatePlayerPresence);
 		$.stremioPlay.info(movie.imdb_id, function(status) {
 			deferred.resolve(status);
 			if(! status) {
 				$window.location = 'stremio://info/'+movie.imdb_id;
 			}
 		});
+		*/
 	};
 
 	self.downloadLink = function(banner) {
