@@ -25,6 +25,8 @@ app.get('/poster/:url', function(req, res) {
 	});
 	req.on('error', function(err) { console.error(err) });
 });
+
+
 app.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });
