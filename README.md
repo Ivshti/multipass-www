@@ -17,4 +17,4 @@ Then open your browser at [http://localhost:7000] and you'll see a catalogue of 
 
 Screenshot
 --------
-![](screenshot.png)
+![](screenshot2.png)
