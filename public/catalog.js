@@ -41,7 +41,7 @@ Catalog.factory('Items', [ '$q', '$rootScope', function($q, $scope) {
 			items = r;
 			items.forEach(function(x) { 
 				if (! genres[x.type]) genres[x.type] = { };
-				x.genre.forEach(function(g) { genres[x.type][g] = 1 });
+				if (x.genre) x.genre.forEach(function(g) { genres[x.type][g] = 1 });
 			});
 			$scope.$apply();
 		});
