@@ -82,10 +82,13 @@
 							<th class="text-uppercase">infohash</th>
 						</tr>
 						<tr>
-							<td>{{Catalog.selected.stream.infoHash}}</td>
-							<td></td><a ng-href="stremio://{{Catalog.selected.stream.infoHash}}">click to watch in Stremio</a></td>
-							<!--<td></td><a ng-href="{{Catalog.selected.stream.infoHash}}">click to watch with peerflix</a></td> HOW?--> 
+							<td><a title="click to watch with Stremio" ng-href="stremio://{{Catalog.selected.stream.infoHash}}">{{Catalog.selected.stream.infoHash}}</a></td>
 						</tr>
+						<!--
+						<tr>
+							<td><a ng-href="stremio://{{Catalog.selected.stream.infoHash}}">click to watch in Stremio</a></td>
+						</tr>
+						-->
 					</table>
 				</div>
 			</div>
