@@ -12,7 +12,7 @@
 
 <body>
 	<div class='container' ng-app="catalog" ng-controller="CatalogController as Catalog">
-		<div>i
+		<div>
 			<div class='center_col' id='center_col'>
 
 <div class="panel panel-shadow">
@@ -83,6 +83,9 @@
 						</tr>
 						<tr>
 							<td><a title="click to watch with Stremio" ng-href="stremio://{{Catalog.selected.stream.infoHash}}">{{Catalog.selected.stream.infoHash}}</a></td>
+						</tr>
+						<tr>
+							<td>{{Catalog.selected.stream.uploaders}} uploaders, {{Catalog.selected.stream.downloaders}} downloaders, {{Catalog.selected.stream.tag.join(", ")}}</td>
 						</tr>
 						<!--
 						<tr>
