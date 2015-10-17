@@ -12,7 +12,7 @@
 
 <body>
 	<div class='container' ng-app="catalog" ng-controller="CatalogController as Catalog">
-		<div>
+		<div>i
 			<div class='center_col' id='center_col'>
 
 <div class="panel panel-shadow">
@@ -82,7 +82,9 @@
 							<th class="text-uppercase">infohash</th>
 						</tr>
 						<tr>
-							<td><a ng-href="stremio://{{Catalog.selected.stream.infoHash}}">{{Catalog.selected.stream.infoHash}}</a></td>
+							<td>{{Catalog.selected.stream.infoHash}}</td>
+							<td></td><a ng-href="stremio://{{Catalog.selected.stream.infoHash}}">click to watch in Stremio</a></td>
+							<!--<td></td><a ng-href="{{Catalog.selected.stream.infoHash}}">click to watch with peerflix</a></td> HOW?--> 
 						</tr>
 					</table>
 				</div>
