@@ -1,6 +1,6 @@
 {
   "name": "multipass-www",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "a GUI to multipass-torrent",
   "main": "index.js",
   "scripts": {
