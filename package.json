@@ -25,6 +25,6 @@
   "homepage": "https://github.com/Ivshti/multipass-www",
   "dependencies": {
     "express": "^4.13.3",
-    "multipass-torrent": "^0.2.16"
+    "multipass-torrent": "*"
   }
 }
