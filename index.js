@@ -16,7 +16,7 @@ app = express();
 app.use(addon.middleware);
 app.use(express.static('public'));
 
-app.set('port', process.env.PORT || 7000);
+app.set('port', process.env.PORT || 7500);
 app.get('/poster/:url', function(req, res) {
 	var req = http.get(url.parse(decodeURIComponent(req.params.url)), function(resp) {
 		resp.headers['cache-control'] = "public, max-age=2592000";
