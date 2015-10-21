@@ -11,7 +11,7 @@ Catalog.config([ '$compileProvider', function($compileProvider) {
 	- display them in Discover, 100 on a page, with category filter optional & filtering within that dataset
 */
 
-Catalog.factory('Items', [ '$q', '$rootScope', function($q, $scope) {
+Catalog.factory('Items', [ '$q', '$rootScope', '$location', function($q, $scope, $location) {
 	var Client = require("stremio-addons").Client;
 	var addons = new Client();
 
@@ -21,7 +21,10 @@ Catalog.factory('Items', [ '$q', '$rootScope', function($q, $scope) {
 
 	addons.add("http://cinemeta-backup.herokuapp.com");
 	addons.add("http://stremio-cinemeta.herokuapp.com");
-	addons.add(window.location.origin); // multipass add-on
+
+	var addonUrl = $location.search().addon || window.location.origin;
+	console.log("Add-on URL: "+addonUrl);
+	addons.add(addonUrl); // multipass add-on
 
 	var genres = self.genres = {};
 	var items = [];
