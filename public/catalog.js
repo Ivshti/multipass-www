@@ -37,7 +37,7 @@ Catalog.factory('Items', [ '$q', '$rootScope', '$location', function($q, $scope,
 
 		var p = Object.keys(popularities)
 			.map(function(k) { return [k, popularities[k]] })
-			.sort(function(a,b) { return b[1] - a[1] }).map(function(x) { return x[0] });
+			.sort(function(a,b) { return b[1] - a[1] }).map(function(x) { return x[0] }).slice(0, 500);
 		addons.meta.find({ query: { imdb_id: { $in: p } }, limit: 500, skip: 0, complete: true, popular: true, projection: "lean" }, function(err, r) {
 			if (!r) return;
 
