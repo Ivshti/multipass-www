@@ -1,3 +1,5 @@
+# OBSOLETE; use [stremio-addons-client](http://github.com/Ivshti/stremio-addons-client) - [see instructions](https://github.com/jaruba/multipass-torrent#gui).
+
 # multipass-www
 
 Web catalogue of movies for multipass-torrent.
