@@ -1,8 +1,11 @@
 # OBSOLETE; use [stremio-addons-client](http://github.com/Ivshti/stremio-addons-client) - [see instructions](https://github.com/jaruba/multipass-torrent#gui).
 
+---------------------------
+
+
 # multipass-www
 
-Web catalogue of movies for multipass-torrent.
+Web catalogue for multipass-torrent.
 
 [multipass-torrent](http://github.com/Ivshti/multipass-torrent) is a project to index torrents from any source and identify the video files within them by IMDB ID.
 
